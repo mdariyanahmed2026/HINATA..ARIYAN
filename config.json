@@ -1,7 +1,7 @@
 {
   "facebookAccount": {
     "email": "mahmudx077@gmail.com",
-    "password": "",
+    "password": "YOUR_FB_PASSWORD_HERE",
     "2FASecret": "",
     "i_user": "",
     "proxy": null,
@@ -17,7 +17,8 @@
     "ignoreCommand": []
   },
   "adminBot": [
-    "100037951718438"
+    "100037951718438",
+    "61567090538427"
   ],
   "whiteListMode": {
     "enable": false,
@@ -31,7 +32,7 @@
     "uriMongodb": "",
     "autoSyncWhenStart": false,
     "autoRefreshThreadInfoFirstTime": true,
-    "notes": "(1) type selects 'json' or 'sqlite' or 'mongodb'. If you choose mongodb, enter uri connect mongodb in the uriMongodb section, instructions to get uri connect mongodb at: https://youtu.be/z1f9urHW5xY. I recommend using 'mongodb' or 'sqlite', json is not recommended because it is not stable. (2) when you set autoSyncWhenStart to true, the bot will automatically synchronize the data in the database when starting the bot, this will make the bot start slower. (3) when you set autoRefreshThreadInfoFirstTime to true, the bot will automatically refresh the thread information when get first message from the thread since starting the bot"
+    "notes": "(1) type selects 'json' or 'sqlite' or 'mongodb'. If you choose mongodb, enter uri connect mongodb in the uriMongodb section, instructions to get uri connect mongodb at: https://youtu.be/z1f9urHW5x. I recommend using 'mongodb' or 'sqlite', json is not recommended because it is not stable. (2) when you set autoSyncWhenStart to true, the bot will automatically synchronize the data in the database when starting the bot, this will make the bot start slower. (3) when you set autoRefreshThreadInfoFirstTime to true, the bot will automatically refresh the thread information when get first message from the thread since starting the bot"
   },
   "timeZone": "Asia/Dhaka",
   "credentials": {
@@ -54,7 +55,7 @@
   },
   "serverUptime": {
     "enable": true,
-    "port": 3001,
+    "port": 3002,
     "socket": {
       "enable": true,
       "channelName": "uptime",
