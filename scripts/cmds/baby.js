@@ -20,8 +20,7 @@ const baseApiUrl = async () => {
 };
 
 /**
-* @author MahMUD
-* @author: do not delete it
+* @author Ariyan* @author Ariyanot delete it
 */
 
 module.exports.config = {
@@ -162,7 +161,7 @@ module.exports.onChat = async ({ api, event }) => {
           "আমাকে ডাকলে ,আমি কিন্তূ কিস করে দেবো😘 ",  
           "🐒🐒🐒",
           "bye",
-          "naw amr boss k message daw m.me/mahmud0x7",
+          "naw amr boss k message daw https://www.facebook.com/share/1azrk2taF7/",
           "mb ney bye",
           "meww",
           "গোলাপ ফুল এর জায়গায় আমি দিলাম তোমায় মেসেজ",
