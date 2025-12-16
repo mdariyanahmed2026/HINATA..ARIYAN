@@ -101,3 +101,11 @@ function roleTextToString(role) {
       return "Unknown";
   }
 }
+const helpText = `
+[ GENERAL ]
+➤ help
+➤ ping
+
+[ OWNER ]
+➤ owner
+`;
