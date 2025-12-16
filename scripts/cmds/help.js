@@ -5,7 +5,7 @@ module.exports = {
   config: {
     name: "help",
     version: "1.18",
-    author: "Ktkhang | fixed by ARIYAN",
+    author: "Ktkhang | fixed by Soho",
     countDown: 5,
     role: 0,
     shortDescription: {
@@ -35,7 +35,7 @@ module.exports = {
 
         const category = value.config.category || "other";
         if (!categories[category]) categories[category] = [];
-        categorienamtegory].push(name);
+        categories[category].push(name);
       }
 
       for (const category of Object.keys(categories)) {
@@ -51,10 +51,10 @@ module.exports = {
 
       msg += `\n\n⭔ Total Commands: ${commands.size}`;
       msg += `\n⭔ Use: ${prefix}help <command name>\n`;
-      msg += `\n╭─✦OWNER:ARIYAN╰‣ Bangladesh`;
+      msg += `\n╭─✦OWNER: Soho\n╰‣ Bangladesh`;
 
       const sent = await message.reply(msg);
-      setTimeout(() => message.unsend(sent.messageID), 80So;
+      setTimeout(() => message.unsend(sent.messageID), 80000);
       return;
     }
 
@@ -77,9 +77,9 @@ module.exports = {
 
     const response = `
 ╭─────────⭓
-│ 🎀 Name : ${cfg{ARIYAN}A
-│ 📝 Description : ${cfg.longDescription?.en || "No description"}
-│ 🧑‍💻 Author : ${ ARIYAN Guide : ${usage}
+│ 🎀 Name : ${cfg.ARIYAN}ription : ${cfg.longDescription?.en || "No description"}
+│ 🧑‍💻 Author : ${cfg.author || "Unknown"}
+│ 📚 Guide : ${usage}
 │ 🔢 Version : ${cfg.version || "1.0"}
 │ 🔐 Role : ${roleText}
 ╰────────────⭓`;
