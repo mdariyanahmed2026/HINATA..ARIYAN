@@ -51,7 +51,7 @@ module.exports = {
 
       msg += `\n\n⭔ Total Commands: ${commands.size}`;
       msg += `\n⭔ Use: ${prefix}help <command name>\n`;
-      msg += `\n╭─✦OWNER: Soho\n╰‣ Bangladesh`;
+      msg += `\n╭─✦OWNER: ARIYAN\n╰‣ Bangladesh`;https://www.facebook.com/share/1A1Rurf6VA/
 
       const sent = await message.reply(msg);
       setTimeout(() => message.unsend(sent.messageID), 80000);
