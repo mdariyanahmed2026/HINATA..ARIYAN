@@ -1,111 +1,60 @@
-const { getPrefix } = global.utils;
-const { commands, aliases } = global.GoatBot;
+const fs = require("fs");
 
 module.exports = {
   config: {
     name: "help",
-    version: "1.18",
-    author: "Ktkhang | fixed by Soho",
-    countDown: 5,
+    version: "2.0",
+    author: "Ariyan",
     role: 0,
-    shortDescription: {
-      en: "View all commands",
-    },
-    longDescription: {
-      en: "View all commands by category",
-    },
     category: "info",
-    guide: {
-      en: "help | help <command>",
-    },
-    priority: 1,
+    shortDescription: { en: "Show all commands" }
   },
 
-  onStart: async function ({ message, args, event, threadsData, role }) {
-    const { threadID } = event;
-    const prefix = getPrefix(threadID);
+  onStart: async function ({ api, event, role }) {
+    const commands = global.GoatBot.commands;
+    const prefix = "-";
 
-    // ===== SHOW ALL COMMANDS =====
-    if (args.length === 0) {
-      const categories = {};
-      let msg = "📜 𝐀𝐋𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒\n";
+    const categories = {};
+    let totalCmd = 0;
 
-      for (const [name, value] of commands) {
-        if (value.config.role > role) continue;
+    for (const [name, cmd] of commands) {
+      if (cmd.config?.role > role) continue;
 
-        const category = value.config.category || "other";
-        if (!categories[category]) categories[category] = [];
-        categories[category].push(name);
-      }
-
-      for (const category of Object.keys(categories)) {
-        msg += `\n╭─────⭓ ${category.toUpperCase()}\n`;
-
-        const cmds = categories[category].sort();
-        for (let i = 0; i < cmds.length; i += 2) {
-          msg += `│ ✧${cmds[i] || ""}   ✧${cmds[i + 1] || ""}\n`;
-        }
-
-        msg += `╰────────────⭓`;
-      }
-
-      msg += `\n\n⭔ Total Commands: ${commands.size}`;
-      msg += `\n⭔ Use: ${prefix}help <command name>\n`;
-      msg += `\n╭─✦OWNER: ARIYAN\n╰‣ Bangladesh`;https://www.facebook.com/share/1A1Rurf6VA/
-
-      const sent = await message.reply(msg);
-      setTimeout(() => message.unsend(sent.messageID), 80000);
-      return;
+      const category = (cmd.config?.category || "OTHER").toUpperCase();
+      if (!categories[category]) categories[category] = [];
+      categories[category].push(name);
+      totalCmd++;
     }
 
-    // ===== SINGLE COMMAND HELP =====
-    const commandName = args[0].toLowerCase();
-    const command =
-      commands.get(commandName) ||
-      commands.get(aliases.get(commandName));
-
-    if (!command) {
-      return message.reply(`❌ Command "${commandName}" not found.`);
-    }
-
-    const cfg = command.config;
-    const roleText = roleTextToString(cfg.role);
-    const usage =
-      cfg.guide?.en
-        ?.replace(/{he}/g, prefix)
-        ?.replace(/{lp}/g, cfg.name) || "No guide";
-
-    const response = `
-╭─────────⭓
-│ 🎀 Name : ${cfg.ARIYAN}ription : ${cfg.longDescription?.en || "No description"}
-│ 🧑‍💻 Author : ${cfg.author || "Unknown"}
-│ 📚 Guide : ${usage}
-│ 🔢 Version : ${cfg.version || "1.0"}
-│ 🔐 Role : ${roleText}
-╰────────────⭓`;
-
-    const sent = await message.reply(response);
-    setTimeout(() => message.unsend(sent.messageID), 80000);
-  },
-};
-
-function roleTextToString(role) {
-  switch (role) {
-    case 0:
-      return "All users";
-    case 1:
-      return "Group admins";
-    case 2:
-      return "Bot admin";
-    default:
-      return "Unknown";
-  }
-}
-const helpText = `
-[ GENERAL ]
-➤ help
-➤ ping
-
-[ OWNER ]
-➤ owner
+    let msg = `
+╔═══════════════╗
+ 🎏 𝗔𝗥𝗜𝗬𝗔𝗡 𝗕𝗢𝗧 𝙼𝙴𝙽𝚄
+╚═══════════════╝
 `;
+
+    for (const cat in categories) {
+      msg += `\n┍━━━[ ${cat} ]☃\n`;
+      categories[cat].sort().forEach(cmd => {
+        msg += `┋ᐉ ${cmd}\n`;
+      });
+      msg += `┕━━━━━━━━━━━━━━◊\n`;
+    }
+
+    msg += `
+┍━━━━[𝗜𝗡𝗙𝗢𝗥𝗠]━━━━◊
+┋➥ 𝗧𝗢𝗧𝗔𝗟 𝗖𝗠𝗗: ${totalCmd}
+┋➥ 𝗣𝗥𝗘𝗙𝗜𝗫: ⦃ ${prefix} ⦄
+┋➥ 𝗢𝗪𝗡𝗘𝗥: ARIYAN
+┋➥ 𝗙𝗕: facebook.com/share/1A1Rurf6VA/
+┕━━━━━━━━━━━━━━━◊
+`;
+
+    api.sendMessage(
+      {
+        body: msg,
+        attachment: fs.createReadStream(__dirname + "/../ariyan.jpg")
+      },
+      event.threadID
+    );
+  }
+};
