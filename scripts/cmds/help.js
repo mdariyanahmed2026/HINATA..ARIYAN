@@ -1,62 +1,104 @@
-const fs = require("fs");
+const { getPrefix } = global.utils;
+const { commands, aliases } = global.GoatBot;
 
 module.exports = {
-  name: "help",
-  execute(api, event) {
-    const commands = global.GoatBot.commands;
-    const totalCmd = commands.size;
+  config: {
+    name: "help",
+    version: "1.18",
+    author: "Ktkhang | fixed by Soho",
+    countDown: 5,
+    role: 0,
+    shortDescription: {
+      en: "View all commands",
+    },
+    longDescription: {
+      en: "View all commands by category",
+    },
+    category: "info",
+    guide: {
+      en: "help | help <command>",
+    },
+    priority: 1,
+  },
 
-    const menu = `
-╔═══════════════╗
- 🎏 𝗔𝗥𝗜𝗬𝗔𝗡 𝗕𝗢𝗧 𝙼𝙴𝙽𝚄
-╚═══════════════╝
+  onStart: async function ({ message, args, event, threadsData, role }) {
+    const { threadID } = event;
+    const prefix = getPrefix(threadID);
 
-┍━━━[ INFO ]☃
-┋ᐉ help
-┋ᐉ owner
-┋ᐉ uid
-┋ᐉ tid
-┕━━━━━━━━━━━━━━◊
+    // ===== SHOW ALL COMMANDS =====
+    if (args.length === 0) {
+      const categories = {};
+      let msg = "📜 𝐀𝐋𝐋 𝐂𝐎𝐌𝐌𝐀𝐍𝐃𝐒\n";
 
-┍━━━[ AI ]☃
-┋ᐉ ai
-┋ᐉ gpt
-┋ᐉ gemini
-┋ᐉ prompt
-┕━━━━━━━━━━━━━━◊
+      for (const [name, value] of commands) {
+        if (value.config.role > role) continue;
 
-┍━━━[ FUN ]☃
-┋ᐉ meme
-┋ᐉ joke
-┋ᐉ slap
-┋ᐉ kiss
-┕━━━━━━━━━━━━━━◊
+        const category = value.config.category || "other";
+        if (!categories[category]) categories[category] = [];
+        categories[category].push(name);
+      }
 
-┍━━━[ GAME ]☃
-┋ᐉ quiz
-┋ᐉ guess
-┋ᐉ cricketgame
-┕━━━━━━━━━━━━━━◊
+      for (const category of Object.keys(categories)) {
+        msg += `\n╭─────⭓ ${category.toUpperCase()}\n`;
 
-┍━━━[ ISLAMIC ]☃
-┋ᐉ hadis
-┋ᐉ namaz
-┕━━━━━━━━━━━━━━◊
+        const cmds = categories[category].sort();
+        for (let i = 0; i < cmds.length; i += 2) {
+          msg += `│ ✧${cmds[i] || ""}   ✧${cmds[i + 1] || ""}\n`;
+        }
 
-┍━━━━[𝗜𝗡𝗙𝗢𝗥𝗠]━━━━◊
-┋➥ 𝗧𝗢𝗧𝗔𝗟 𝗖𝗠𝗗: ${totalCmd}
-┋➥ 𝗣𝗥𝗘𝗙𝗜𝗫:  ⦃ - ⦄
-┋➥ 𝗢𝗪𝗡𝗘𝗥:  ARIYAN
-┋➥ 𝗙𝗕: facebook.com/https://www.facebook.com/share/1D8QWsEgPS/
-┕━━━━━━━━━━━━━━━◊
-`;
+        msg += `╰────────────⭓`;
+      }
 
-    api.sendMessage(
-      {
-        body: menu,
-        attachment: fs.createReadStream(__dirname + "/../ariyan.jpg")
-      },
-      event.threadID
-    );
-  }
+      msg += `\n\n⭔ Total Commands: {totalCmd}${commands.size}`;
+      msg += `\n⭔ Use: ${prefix}help <command name>\n`;
+      msg += `\n╭─✦OWNER: ARIYAN\n╰‣ Bangladesh`;https://www.facebook.com/share/1D8QWsEgPS/
+
+      const sent = await message.reply(msg);
+      setTimeout(() => message.unsend(sent.messageID), 80000);
+      return;
+    }
+
+    // ===== SINGLE COMMAND HELP =====
+    const commandName = args[0].toLowerCase();
+    const command =
+      commands.get(commandName) ||
+      commands.get(aliases.get(commandName));
+
+    if (!command) {
+      return message.reply(`❌ Command "${commandName}" not found.`);
+    }
+
+    const cfg = command.config;
+    const roleText = roleTextToString(cfg.role);
+    const usage =
+      cfg.guide?.en
+        ?.replace(/{he}/g, prefix)
+        ?.replace(/{lp}/g, cfg.name) || "No guide";
+
+    const response = `
+╭─────────⭓
+│ 🎀 Name : ${cfg.name}
+│ 📝 Description : ${cfg.longDescription?.en || "No description"}
+│ 🧑‍💻 Author : ${cfg.author || "ARIYAN"}
+│ 📚 Guide : ${usage}
+│ 🔢 Version : ${cfg.version || "1.0"}
+│ 🔐 Role : ${roleText}
+╰────────────⭓`;
+
+    const sent = await message.reply(response);
+    setTimeout(() => message.unsend(sent.messageID), 80000);
+  },
 };
+
+function roleTextToString(role) {
+  switch (role) {
+    case 0:
+      return "All users";
+    case 1:
+      return "Group admins";
+    case 2:
+      return "Bot admin";
+    default:
+      return "Unknown";
+  }
+      }
