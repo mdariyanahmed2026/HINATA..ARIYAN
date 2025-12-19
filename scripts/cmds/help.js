@@ -49,9 +49,9 @@ module.exports = {
         msg += `╰────────────⭓`;
       }
 
-      msg += `\n\n⭔ Total Commands: {totalCmd}${commands.size}`;
+      msg += `\n\n⭔ Total Commands: ${commands.size}`;
       msg += `\n⭔ Use: ${prefix}help <command name>\n`;
-      msg += `\n╭─✦OWNER: ARIYAN\n╰‣ Bangladesh`;https://www.facebook.com/share/1D8QWsEgPS/
+      msg += `\n╭─✦OWNER: ARIYAN\n╰‣ Bangladesh`;
 
       const sent = await message.reply(msg);
       setTimeout(() => message.unsend(sent.messageID), 80000);
@@ -79,7 +79,7 @@ module.exports = {
 ╭─────────⭓
 │ 🎀 Name : ${cfg.name}
 │ 📝 Description : ${cfg.longDescription?.en || "No description"}
-│ 🧑‍💻 Author : ${cfg.author || "ARIYAN"}
+│ 🧑‍💻 Author : ${cfg.author || "Unknown"}
 │ 📚 Guide : ${usage}
 │ 🔢 Version : ${cfg.version || "1.0"}
 │ 🔐 Role : ${roleText}
@@ -101,4 +101,4 @@ function roleTextToString(role) {
     default:
       return "Unknown";
   }
-      }
+                                      }
